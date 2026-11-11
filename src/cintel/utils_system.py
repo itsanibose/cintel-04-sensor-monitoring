@@ -87,6 +87,72 @@ def compute_rolling_metrics(df: pl.DataFrame, window_size: int) -> pl.DataFrame:
     )
 
 
+# === cintel-04: ROLLING MONITORING OF IoT DEVICES ===
+
+
+def compute_rolling_metrics_iot(df: pl.DataFrame) -> pl.DataFrame:
+    """Add hourly and daily average columns for metrics.
+
+    Assumes df is already sorted by timestamp (see load_timeseries_metrics).
+    """
+    # Standardize Timestamps and Data Types
+    df_processed = df.with_columns(
+        [
+            pl.col("timestamp").str.to_datetime(time_zone="UTC"),
+            pl.col("temperature_c").cast(pl.Float64),
+            pl.col("humidity").cast(pl.Float64),
+            pl.col("battery_pct").cast(pl.Float64),
+        ]
+    ).with_columns(
+        [
+            # Generate truncated hourly and calendar daily date windows for grouping
+            pl.col("timestamp").dt.truncate("1h").alias("hourly_window"),
+            pl.col("timestamp").dt.date().alias("daily_window"),
+        ]
+    )
+
+    # A: Compute Hourly Averages
+    hourly_df = df_processed.group_by(
+        ["daily_window", "sensor_id", "hourly_window"]
+    ).agg(
+        [
+            pl.col("temperature_c").mean().round(2).alias("hourly_avg_temp"),
+            pl.col("humidity").mean().round(1).alias("hourly_avg_humidity"),
+            pl.col("battery_pct").mean().round(2).alias("hourly_avg_battery"),
+        ]
+    )
+
+    # B: Compute Daily Averages
+    daily_df = df_processed.group_by(["daily_window", "sensor_id"]).agg(
+        [
+            pl.col("temperature_c").mean().round(2).alias("daily_avg_temp"),
+            pl.col("humidity").mean().round(1).alias("daily_avg_humidity"),
+            pl.col("battery_pct").mean().round(2).alias("daily_avg_battery"),
+        ]
+    )
+
+    # C: Join Daily and Hourly Averages
+    unified_df = (
+        hourly_df.join(daily_df, on=["daily_window", "sensor_id"], how="left")
+        .sort(["sensor_id", "hourly_window"])
+        .select(
+            [
+                "sensor_id",
+                "hourly_window",
+                "daily_window",
+                "hourly_avg_temp",
+                "daily_avg_temp",
+                "hourly_avg_humidity",
+                "daily_avg_humidity",
+                "hourly_avg_battery",
+                "daily_avg_battery",
+            ]
+        )
+    )
+
+    return unified_df
+
+
 # === cintel-05: DRIFT DETECTION ===
 
 

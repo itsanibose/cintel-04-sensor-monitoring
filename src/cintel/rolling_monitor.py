@@ -67,7 +67,10 @@ from typing import Final
 from datafun_toolkit.logger import get_logger, log_header, log_path
 import polars as pl
 
-from cintel.utils_system import compute_rolling_metrics, load_timeseries_metrics
+from cintel.utils_system import (
+    compute_rolling_metrics_iot,
+    load_timeseries_metrics,
+)
 
 # === CONFIGURE LOGGER ===
 
@@ -79,8 +82,8 @@ ROOT_DIR: Final[Path] = Path.cwd()
 DATA_DIR: Final[Path] = ROOT_DIR / "data"
 ARTIFACTS_DIR: Final[Path] = ROOT_DIR / "artifacts"
 
-DATA_FILE: Final[Path] = DATA_DIR / "system_metrics_timeseries.csv"
-OUTPUT_FILE: Final[Path] = ARTIFACTS_DIR / "rolling_metrics.csv"
+DATA_FILE: Final[Path] = DATA_DIR / "sample-sensors.csv"
+OUTPUT_FILE: Final[Path] = ARTIFACTS_DIR / "sensor_metrics.csv"
 
 # === DEFINE THE MAIN FUNCTION ===
 
@@ -116,28 +119,11 @@ def main() -> None:
 
     LOG.info(f"Loaded {df.height} time-series records, sorted by timestamp")
 
-    # ----------------------------------------------------
-    # STEP 2: COMPUTE ROLLING MEANS
-    # ----------------------------------------------------
-    # A rolling window computes statistics over the most recent
-    # N observations. The window "moves" forward one row at a time.
+    # Window size for this data is fixed to hourly and daily averages,
+    # so we don't need to pass it in as a parameter.
+    df_with_rolling: pl.DataFrame = compute_rolling_metrics_iot(df)
 
-    # Example: if WINDOW_SIZE = 3
-    # row 1 → mean of rows [1] = null, incomplete
-    # row 2 → mean of rows [1,2] = null, incomplete
-    # row 3 → mean of rows [1,2,3]
-    # row 4 → mean of rows [2,3,4]
-
-    WINDOW_SIZE: int = 10
-
-    LOG.info(f"WINDOW_SIZE: {WINDOW_SIZE}")
-
-    # compute_rolling_metrics() adds requests_rolling_mean,
-    # errors_rolling_mean, and latency_rolling_mean — see utils_system.py
-    # for exactly how each rolling-mean expression is built.
-    df_with_rolling: pl.DataFrame = compute_rolling_metrics(df, WINDOW_SIZE)
-
-    LOG.info("Computed rolling mean signals")
+    LOG.info("Computed hourly and daily averages")
 
     # ----------------------------------------------------
     # STEP 3: SAVE RESULTS AS AN ARTIFACT
