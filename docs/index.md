@@ -1,29 +1,30 @@
-# Rolling Monitoring of System Metrics
+# Rolling Monitoring IoT Data
 
-Continuous Intelligence | Project 04 | Example Report
+Continuous Intelligence | Project 04 | Customized Report
 
 ## Overview
 
-This project investigates how rolling statistics
-can reveal patterns in system behavior over time.
-
-Individual measurements may fluctuate.
-Rolling analysis provides a way to examine
-recent behavior while reducing short-term variation.
+This project builds an automated data pipeline using Polars to process 15-minute IoT sensor logs. It handles two primary tasks:
+Time-Series Resampling to roll up high-frequency data into hourly or daily averages to surface long-term trends, and Device Profiling
+to group records by unique sensor IDs and compute target performance metrics like average temperature, maximum humidity, and total active
+operational runtime.
 
 ## Data
 
-The example dataset contains 15 time-ordered observations
-collected at five-minute intervals.
+The example dataset contains 600 time-ordered observations
+collected at fifteen-minute intervals.
 
 Each observation includes:
 
-- Timestamp.
-- Number of requests.
-- Number of errors.
-- Total latency in milliseconds.
+- `timestamp` -     timestamp 15 minute cadence
+- `sensor_id` -     SENS-01...SENS12
+- `temperature_c` - temp reading in °C
+- `humidity` -      total response time in milliseconds.
+- `battery_pct` -   Battery level, trends downward over the file
+- `status` -        ok, low_battery (below 15%) or error (rare)
+- Source: [sample sensor
 
-[View Example Dataset](https://github.com/denisecase/cintel-04-rolling-monitoring/blob/main/data/system_metrics_timeseries.csv)
+[View Example Dataset](https://github.com/itsanibose/cintel-04-sensor-monitoring/blob/main/data/sample-sensors.csv)
 
 ## Methods
 
@@ -98,9 +99,9 @@ may be useful.
 
 ## Project Links
 
-- [GitHub Repository](https://github.com/denisecase/cintel-04-rolling-monitoring)
-- [Example Pipeline](https://github.com/denisecase/cintel-04-rolling-monitoring/blob/main/src/cintel/rolling_monitor.py)
-- [Results and Artifacts](https://github.com/denisecase/cintel-04-rolling-monitoring/tree/main/artifacts)
+- [GitHub Repository](https://github.com/itsanibose/cintel-04-sensor-monitoring)
+- [Example Pipeline](https://github.com/itsanibose/cintel-04-sensor-monitoring/blob/main/src/cintel/rolling_monitor.py)
+- [Results and Artifacts](https://github.com/itsanibose/cintel-04-sensor-monitoring/tree/main/artifacts)
 
 ## Project Resources
 

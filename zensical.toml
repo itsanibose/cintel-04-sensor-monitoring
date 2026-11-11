@@ -1,7 +1,7 @@
 # ============================================================
 # zensical.toml (ALL-PY-REPOS)
 # ============================================================
-# Updated: 2026-10-11
+# Updated: 2026-11-10
 #
 # WHAT: A configuration file for building a professional project website.
 #       Zensical converts Markdown documentation into a navigable website.
@@ -53,9 +53,9 @@
 
 [project]
 site_name = "Docs" # CUSTOM: Set the name that appears in the browser tab.
-site_url = "https://denisecase.github.io/cintel-04-rolling-monitoring/"
-repo_url = "https://github.com/denisecase/cintel-04-rolling-monitoring"
-repo_name = "cintel-04-rolling-monitoring"
+site_url = "https://denisecase.github.io/itsanibose/cintel-04-sensor-monitoring/"
+repo_url = "https://github.com/itsanibose/cintel-04-sensor-monitoring"
+repo_name = "cintel-04-sensor-monitoring"
 site_description = "Project Documentation" # CUSTOM: Set the description.
 docs_dir = "docs" # source directory for documentation markdown files
 site_dir = "site" # output directory for generated site (ignored by Git; not in repo)
@@ -65,7 +65,7 @@ edit_uri = "edit/main/docs/" # "Edit this page" links (GitHub)
 [project.extra]
 # WHY: Social links provide easy access to project repositories and profiles.
 social = [
-    {icon = "fontawesome/brands/github", link = "https://github.com/denisecase/cintel-04-rolling-monitoring" },
+    {icon = "fontawesome/brands/github", link = "https://github.com/itsanibose/cintel-04-sensor-monitoring" },
 ]
 
 [project.markdown_extensions]

@@ -17,7 +17,7 @@ Author: Anindya Bose
 
 Date: 2026 November
 
-This project introduces rolling monitoring.
+ This project builds an automated data pipeline using Polars to process 15-minute IoT sensor logs. It handles two primary tasks: Time-Series **Resampling** to roll up high-frequency data into hourly or daily averages to surface long-term trends, and Device Profiling to group records by unique sensor IDs and compute target performance metrics like average temperature, maximum humidity, and total active operational runtime.
 
 The goal is to study measurements over time
 and use rolling statistics to reveal changes in system behavior.
@@ -29,6 +29,7 @@ The project is configured in
 
 The example uses time-series system metrics from `data/`.
 
+
 Each observation includes:
 
 - `timestamp` -     timestamp 15 minute cadence
@@ -37,14 +38,21 @@ Each observation includes:
 - `humidity` -      total response time in milliseconds.
 - `battery_pct` -   Battery level, trends downward over the file
 - `status` -        ok, low_battery (below 15%) or error (rare)
+- Source: [sample sensor](https://howtocsv.com/sample-sensors-csv/)
 
 ## Approach
 
-The pipeline uses Polars to:
+This project implements an automated data engineering and analysis pipeline designed to transform raw, high-frequency IoT sensor logs into structured, actionable business intelligence.
 
-1. Read and order observations by timestamp.
-2. Calculate rolling averages over a defined window.
-3. Save the monitoring results for interpretation.
+## Key Features
+
+* **Time-Series Resampling:** Converts raw 15-minute sensor intervals into hourly and daily averages. This aggregates high-velocity logs, smooths out temporary noise or spikes, and surfaces long-term environmental trends.
+* **Device Profiling & Aggregation:** Groups records by unique sensor IDs to profile individual device behavior. The pipeline calculates targeted performance metrics for each asset, including:
+  * Average temperature variations
+  * Maximum relative humidity thresholds
+  * Total active operating time and lifecycle duration
+* **Data Quality & Signal Engineering:** Automatically computes data-submission quality metrics, such as missing-value rates and global error frequencies while evaluating rule-based anomalies like battery degradation trends.
+
 
 Explore these project components:
 
@@ -79,7 +87,7 @@ uv run marimo run  src/cintel/app.py
 ## Results
 
 The pipeline calculates rolling averages and writes
-`artifacts/rolling_metrics.csv`.
+`artifacts/device_metrics.csv`.
 Review the rolling measurements to understand
 how smoothing can reveal trends and reduce short-term variation.
 
