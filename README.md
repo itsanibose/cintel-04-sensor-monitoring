@@ -1,7 +1,7 @@
-# cintel-04-rolling-monitoring
+# cintel-04-sensor-monitoring
 
 [![Python 3.14](https://img.shields.io/badge/python-3.14%2B-blue?logo=python)](pyproject.toml)
-[![CI](https://github.com/denisecase/cintel-04-rolling-monitoring/actions/workflows/ci-python-zensical.yml/badge.svg)](https://github.com/denisecase/cintel-04-rolling-monitoring/actions/workflows/ci-python-zensical.yml)
+[![CI](https://github.com/itsanibose/cintel-04-sensor-monitoring/blob/main/.github/workflows/ci-python-zensical.yml/badge.svg)](https://github.com/itsanibose/cintel-04-sensor-monitoring/blob/main/.github/workflows/ci-python-zensical.yml)
 [![Documentation](https://img.shields.io/badge/docs-site-blue?logo=github)](https://denisecase.github.io/cintel-04-rolling-monitoring/)
 
 [![uv managed](https://img.shields.io/badge/uv-managed-DE5FE9)](https://docs.astral.sh/uv/)
@@ -13,9 +13,9 @@
 
 ## Project Overview
 
-Author: Denise Case
+Author: Anindya Bose
 
-Date: 2026 October
+Date: 2026 November
 
 This project introduces rolling monitoring.
 
@@ -31,10 +31,12 @@ The example uses time-series system metrics from `data/`.
 
 Each observation includes:
 
-- `timestamp` - time of observation.
-- `requests` - number of requests handled.
-- `errors` - number of failed requests.
-- `total_latency_ms` - total response time in milliseconds.
+- `timestamp` -     timestamp 15 minute cadence
+- `sensor_id` -     SENS-01...SENS12
+- `temperature_c` - temp reading in °C
+- `humidity` -      total response time in milliseconds.
+- `battery_pct` -   Battery level, trends downward over the file
+- `status` -        ok, low_battery (below 15%) or error (rare)
 
 ## Approach
 

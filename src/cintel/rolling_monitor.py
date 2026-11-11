@@ -1,21 +1,24 @@
 """rolling_monitor.py - Project script (example).
 
-Author: Your Name Here
-Date: 2026-mm-dd
+Author: Anindya Bose
+Date: 2026-11-10
 
-Time-Series System Metrics Data
+Time-Series IOT Data
 
-- Data is taken from a system that records operational metrics over time.
+- Data is taken from IOT devices that record sensor readings.
 - Each row represents one observation at a specific timestamp.
 - The CSV file includes these columns:
-  - timestamp: when the observation occurred
-  - requests: number of requests handled
-  - errors: number of failed requests
-  - total_latency_ms: total response time in milliseconds
+
+- `timestamp` -     timestamp 15 minute cadence
+- `sensor_id` -     SENS-01...SENS12
+- `temperature_c` - temp reading in °C
+- `humidity` -      total response time in milliseconds.
+- `battery_pct` -   Battery level, trends downward over the file
+- `status` -        ok, low_battery (below 15%) or error (rare)
 
 Purpose
 
-- Read time-series system metrics from a CSV file.
+- Read time-series IOT data from a CSV file.
 - Demonstrate rolling monitoring using a moving window.
 - Compute rolling averages to smooth short-term variation.
 - Save the resulting monitoring signals as a CSV artifact.

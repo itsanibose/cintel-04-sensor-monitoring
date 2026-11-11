@@ -12,17 +12,17 @@ cff-version: "1.2.0"
 message: "If using this project, please cite it as described in this file."
 type: software
 
-title: cintel-04-rolling-monitoring
-date-released: "2026-03-06"
+title: cintel-04-sensor-monitoring
+date-released: "2026-11-10"
 
 authors:
-  - family-names: Case
-    given-names: Denise M.
+  - family-names: Bose
+    given-names: Anindya
     orcid: "https://orcid.org/0000-0001-6165-7389"
     affiliation: "Northwest Missouri State University, USA"
 
-repository-code: "https://github.com/denisecase/cintel-04-rolling-monitoring"
-url: "https://github.com/denisecase/cintel-04-rolling-monitoring"
+repository-code: "https://github.com/itsanibose/cintel-04-sensor-monitoring"
+url: "https://github.com/itsanibose/cintel-04-sensor-monitoring"
 license: MIT
 
 abstract: |
