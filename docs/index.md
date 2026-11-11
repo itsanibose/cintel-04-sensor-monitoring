@@ -55,39 +55,48 @@ The rolling metrics show several changes in activity.
 | 08:50 |           145.00 |           2.33 |
 | 09:10 |           198.33 |           7.67 |
 
-[View Rolling Monitoring Results](https://github.com/denisecase/cintel-04-rolling-monitoring/blob/main/artifacts/rolling_metrics.csv)
+| sensor_id | hourly_window | daily_window | hourly_avg_temp | daily_avg_temp | hourly_avg_humidity | daily_avg_humidity | hourly_avg_battery | daily_avg_battery |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| SENS-01 | 2026-01-01T05:00:00.000000+0000 | 2026-01-01 | -2.2 | 16.48 | 25.0 | 53.5 | 99.1 | 95.62 |
+| SENS-01 | 2026-01-01T07:00:00.000000+0000 | 2026-01-01 | 30.8 | 16.48 | 90.0 | 53.5 | 97.5 | 95.62 |
+| SENS-01 | 2026-01-01T13:00:00.000000+0000 | 2026-01-01 | 2.6 | 16.48 | 76.0 | 53.5 | 94.6 | 95.62 |
+| SENS-01 | 2026-01-01T14:00:00.000000+0000 | 2026-01-01 | 34.7 | 16.48 | 23.0 | 53.5 | 91.3 | 95.62 |
+| SENS-01 | 2026-01-02T01:00:00.000000+0000 | 2026-01-02 | 2.8 | 25.07 | 51.0 | 57.8 | 85.9 | 83.15 |
+| SENS-01 | 2026-01-02T06:00:00.000000+0000 | 2026-01-02 | 38.4 | 25.07 | 37.0 | 57.8 | 87.3 | 83.15 |
+| SENS-01 | 2026-01-02T11:00:00.000000+0000 | 2026-01-02 | 27.8 | 25.07 | 89.0 | 57.8 | 82.0 | 83.15 |
+| SENS-01 | 2026-01-02T12:00:00.000000+0000 | 2026-01-02 | 30.0 | 25.07 | 54.0 | 57.8 | 83.7 | 83.15 |
+| SENS-01 | 2026-01-02T13:00:00.000000+0000 | 2026-01-02 | 41.9 | 25.07 | 47.0 | 57.8 | 81.6 | 83.15 |
+
+[View Rolling Monitoring Results](https://github.com/itsanibose/cintel-04-sensor-monitoring/blob/main/artifacts/sensor_metrics.csv)
 
 ## Interpretation
 
-The rolling averages reveal periods of increasing
-activity, declining activity, and renewed growth.
+The resampled metrics reveal distinct periods of environmental variation,
+stabilized stabilization windows, and shifting system operational metrics.
 
-Toward the end of the observation period,
-request counts and error counts both increase.
+Across the observation history, localized temperature and humidity readings
+fluctuate alongside a linear reduction in device battery levels.
 
-This suggests that growing workload may coincide
-with additional errors, although the data
-does not establish a causal relationship.
+This structured breakdown helps distinguish expected, continuous resource
+consumption patterns from sudden, sharp deviations in environmental conditions across distinct sensor deployments.
 
 ## Limitations
 
-Rolling averages smooth short-term variation,
-but may delay detection of sudden changes.
+Time-series resampling effectively filters out erratic hourly data spikes,
+but large aggregation windows may obscure short-term, micro-level sensor anomalies.
 
-The example uses a fixed three-observation window.
-Different window sizes may reveal different patterns.
+The current implementation utilizes fixed hourly and daily window configurations.
+Alternative grouping intervals may capture different variations in device activity profiles.
 
-The pipeline does not yet classify anomalies
-or issue monitoring alerts.
+The analytical engine evaluates static constraints and aggregations, but does not yet
+include dynamic thresholding, machine learning models, or live alert notifications.
 
 ## Conclusion
 
-Rolling monitoring adds a temporal perspective
-to system analysis.
+Resampling high-frequency sensor intervals adds a clear chronological perspective to complex time-series data streams.
 
-It provides a foundation for identifying developing
-patterns and determining when further investigation
-may be useful.
+It establishes a structured foundation for tracking multi-device fleet performance, identifying hardware degradation trends,
+and isolating faulty sensors for immediate inspection.
 
 ## Documentation Index
 
