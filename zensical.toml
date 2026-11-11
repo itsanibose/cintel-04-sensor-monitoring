@@ -53,7 +53,7 @@
 
 [project]
 site_name = "Docs" # CUSTOM: Set the name that appears in the browser tab.
-site_url = "https://denisecase.github.io/itsanibose/cintel-04-sensor-monitoring/"
+site_url = "https://itsanibose.github.io/cintel-04-sensor-monitoring/"
 repo_url = "https://github.com/itsanibose/cintel-04-sensor-monitoring"
 repo_name = "cintel-04-sensor-monitoring"
 site_description = "Project Documentation" # CUSTOM: Set the description.
