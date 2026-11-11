@@ -213,7 +213,7 @@ testing, documentation, and code quality.
 
 ## Links
 
-- [Hosted Documentation](https://denisecase.github.io/cintel-04-rolling-monitoring/)
+- [Hosted Documentation](https://itsanibose.github.io/cintel-04-sensor-monitoring/)
 - [Professional Python Workflow Guide](https://denisecase.github.io/pro-analytics-02/)
 - [Citation](CITATION.cff)
 - [License](LICENSE)

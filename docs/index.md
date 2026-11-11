@@ -106,6 +106,7 @@ and isolating faulty sensors for immediate inspection.
 - [Example Pipeline](https://github.com/itsanibose/cintel-04-sensor-monitoring/blob/main/src/cintel/rolling_monitor.py)
 - [Results and Artifacts](https://github.com/itsanibose/cintel-04-sensor-monitoring/tree/main/artifacts)
 
+
 ## Project Resources
 
 - [Project Instructions](project-instructions.md)
