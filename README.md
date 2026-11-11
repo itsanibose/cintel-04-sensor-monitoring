@@ -1,7 +1,7 @@
 # cintel-04-sensor-monitoring
 
 [![Python 3.14](https://img.shields.io/badge/python-3.14%2B-blue?logo=python)](pyproject.toml)
-[![CI](https://github.com/itsanibose/cintel-04-sensor-monitoring/blob/main/.github/workflows/ci-python-zensical.yml/badge.svg)](https://github.com/itsanibose/cintel-04-sensor-monitoring/blob/main/.github/workflows/ci-python-zensical.yml)
+[![CI](https://github.com/itsanibose/cintel-04-sensor-monitoring/actions/workflows/ci-python-zensical.yml/badge.svg)](https://github.com/itsanibose/cintel-04-sensor-monitoring/actions/workflows/ci-python-zensical.yml)
 [![Documentation](https://img.shields.io/badge/docs-site-blue?logo=github)](https://itsanibose.github.io/cintel-04-sensor-monitoring/)
 
 [![uv managed](https://img.shields.io/badge/uv-managed-DE5FE9)](https://docs.astral.sh/uv/)

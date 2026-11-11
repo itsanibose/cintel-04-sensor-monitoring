@@ -22,38 +22,32 @@ Each observation includes:
 - `humidity` -      total response time in milliseconds.
 - `battery_pct` -   Battery level, trends downward over the file
 - `status` -        ok, low_battery (below 15%) or error (rare)
-- Source: [sample sensor
+- Source: [sample sensor](https://howtocsv.com/sample-sensors-csv/)
 
 [View Example Dataset](https://github.com/itsanibose/cintel-04-sensor-monitoring/blob/main/data/sample-sensors.csv)
 
 ## Methods
 
-The pipeline sorts observations by timestamp
-and computes rolling averages using a window
-of three observations.
+The pipeline groups records by unique sensor profiles, truncates timestamps into explicit historical steps,
+and applies multi-level window calculations across the fleet timeline.
 
-Rolling averages are calculated for:
+Rolling averages are calculated using a configurable window size for:
 
-- Requests.
-- Errors.
-- Total latency.
+- Ambient temperature variations.
+- Relative humidity percentages.
+- Gradual battery degradation trends.
 
-Each completed window summarizes the current
-observation and the two preceding observations.
+The calculation engine separates the pipeline execution into two chronological layers:
 
-The first two rows have no rolling average
-because the full window is not yet available.
+- **Hourly Rolling Streams:** Groups observations into 1-hour intervals to calculate a moving average of the immediate, preceding hours.
+- **Daily Rolling Baselines:** Groups observations into 1-day intervals to calculate a broader, preceding daily baseline.
+
+The first rows in each partitioned sensor window will return empty or null values until the historical record count matches the required window size.
+
 
 ## Results
 
-The rolling metrics show several changes in activity.
-
-| Time  | Rolling Requests | Rolling Errors |
-| ----- | ---------------: | -------------: |
-| 08:10 |           135.00 |           3.00 |
-| 08:25 |           171.67 |           6.00 |
-| 08:50 |           145.00 |           2.33 |
-| 09:10 |           198.33 |           7.67 |
+Hourly and Daily Average of Sensor readings.
 
 | sensor_id | hourly_window | daily_window | hourly_avg_temp | daily_avg_temp | hourly_avg_humidity | daily_avg_humidity | hourly_avg_battery | daily_avg_battery |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
