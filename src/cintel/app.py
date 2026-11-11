@@ -23,11 +23,11 @@ PLAN CELLS FIRST
 
 1. Imports (installs WASM deps, returns shared imports and constants)
 2. Opening title and introduction (Markdown)
-3. Load and sort the time-series data (same cell handles local and WASM
-   environments, via cintel.utils_system)
-4. Window size control (slider)
-5. Compute rolling means (same logic as the CLI pipeline)
-6. Show the rolling metrics table
+3. Load and sort the IoT sensor time-series data (same cell handles local
+   and WASM environments, via cintel.utils_system)
+4. Compute hourly and daily averages (same logic as the CLI pipeline)
+5. Sensor selection control (dropdown)
+6. Filter and show the sensor metrics table
 7. Closing (Markdown)
 
 Note: marimo triggers @app.cell functions automatically; we never call them.
@@ -58,9 +58,12 @@ async def _():
     import marimo as mo
     import polars as pl
 
-    from cintel.utils_system import compute_rolling_metrics, load_timeseries_metrics
+    from cintel.utils_system import (
+        compute_rolling_metrics_iot,
+        load_timeseries_metrics,
+    )
 
-    return compute_rolling_metrics, load_timeseries_metrics, mo, pl, sys
+    return compute_rolling_metrics_iot, load_timeseries_metrics, mo, pl, sys
 
 
 # === TITLE AND INTRODUCTION ===
@@ -69,11 +72,13 @@ async def _():
 @app.cell
 def _(mo):
     mo.md(r"""
-    # Rolling Monitoring
+    # Rolling Monitoring: IoT Sensors
 
-    A single observation can be noisy. A rolling average smooths short-term
-    variation so longer-term trends stand out. Move the slider to see how
-    window size changes what the data reveals.
+    IoT sensors report temperature, humidity, and battery level every
+    15 minutes. A single reading can be noisy, so the pipeline rolls the
+    readings up into **hourly** and **daily** averages per sensor.
+    Comparing the two shows how each hour deviates from that day's baseline.
+    Pick a sensor below to focus on one device, or view the whole fleet.
     """)
 
 
@@ -82,7 +87,7 @@ def _(mo):
 
 @app.cell
 def _(load_timeseries_metrics, mo, sys):
-    """Load the time-series data. Two environments, one cell.
+    """Load the IoT sensor time-series data. Two environments, one cell.
 
     Locally, polars reads the CSV from data/.
     Under WASM (emscripten), Pyodide's open_url() fetches the CSV from
@@ -94,7 +99,7 @@ def _(load_timeseries_metrics, mo, sys):
     if notebook_location is None:
         raise RuntimeError("Unable to determine notebook location.")
 
-    filename = "system_metrics_timeseries.csv"
+    filename = "sample-sensors.csv"
 
     if sys.platform == "emscripten":
         from pyodide.http import open_url  # ty: ignore[unresolved-import]
@@ -108,31 +113,48 @@ def _(load_timeseries_metrics, mo, sys):
     return (df,)
 
 
-# === WINDOW SIZE CONTROL ===
+# === COMPUTE HOURLY AND DAILY AVERAGES (SAME LOGIC AS THE CLI PIPELINE) ===
 
 
 @app.cell
-def _(mo):
-    window_size = mo.ui.slider(1, 10, value=3, label="Rolling window size (rows)")
-    window_size  # noqa: B018 (marimo often uses standalone expressions)
-    return (window_size,)
-
-
-# === COMPUTE ROLLING MEANS (SAME LOGIC AS THE CLI PIPELINE) ===
-
-
-@app.cell
-def _(compute_rolling_metrics, df, window_size):
-    df_with_rolling = compute_rolling_metrics(df, window_size.value)
+def _(compute_rolling_metrics_iot, df):
+    # Windows are fixed (1 hour and 1 calendar day), so no window size input.
+    df_with_rolling = compute_rolling_metrics_iot(df)
     return (df_with_rolling,)
 
 
-# === SHOW THE ROLLING METRICS TABLE ===
+# === SENSOR SELECTION CONTROL ===
 
 
 @app.cell
 def _(df_with_rolling, mo):
-    mo.ui.table(df_with_rolling)
+    ALL_SENSORS = "All sensors"
+    sensor_ids = sorted(df_with_rolling["sensor_id"].unique().to_list())
+    sensor_choice = mo.ui.dropdown(
+        options=[ALL_SENSORS, *sensor_ids],
+        value=ALL_SENSORS,
+        label="Sensor",
+    )
+    sensor_choice  # noqa: B018 (marimo often uses standalone expressions)
+    return ALL_SENSORS, sensor_choice
+
+
+# === FILTER AND SHOW THE SENSOR METRICS TABLE ===
+
+
+@app.cell
+def _(ALL_SENSORS, df_with_rolling, mo, pl, sensor_choice):
+    if sensor_choice.value == ALL_SENSORS:
+        df_view = df_with_rolling
+    else:
+        df_view = df_with_rolling.filter(pl.col("sensor_id") == sensor_choice.value)
+
+    mo.vstack(
+        [
+            mo.md(f"**{df_view.height}** hourly rows for **{sensor_choice.value}**"),
+            mo.ui.table(df_view),
+        ]
+    )
 
 
 # === TYPICALLY END WITH A MARKDOWN SOURCE LINK AND CLOSING ===
