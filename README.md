@@ -114,7 +114,7 @@ uv run pytest
 
 ## Project Documentation
 
-The [hosted documentation site](https://denisecase.github.io/cintel-04-rolling-monitoring/)
+The [hosted documentation site](https://itsanibose.github.io/cintel-04-sensor-monitoring/)
 is published using Zensical and GitHub Pages.
 
 The documentation site is used to present the project report,
@@ -127,8 +127,8 @@ This project includes continuous integration and continuous deployment (CI/CD)
 to check project files and publish the docs.
 GitHub Actions include:
 
-- [CI: Python and Documentation Checks](https://github.com/denisecase/cintel-04-rolling-monitoring/actions/workflows/ci-python-zensical.yml)
-- [CD: Documentation Deployment](https://github.com/denisecase/cintel-04-rolling-monitoring/actions/workflows/deploy-zensical.yml)
+- [CI: Python and Documentation Checks](https://github.com/itsanibose/cintel-04-sensor-monitoring/actions/workflows/ci-python-zensical.yml)
+- [CD: Documentation Deployment](https://github.com/itsanibose/cintel-04-sensor-monitoring/actions/workflows/deploy-zensical.yml)
 
 ## Developer Reference
 
